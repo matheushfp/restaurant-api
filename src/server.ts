@@ -1,3 +1,6 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import { connect } from 'mongoose';
 import { route } from './routes';
