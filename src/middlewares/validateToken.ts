@@ -5,7 +5,7 @@ function validateToken(req: Request, res: Response, next: NextFunction) {
   const authToken = req.headers.authorization;
 
   if (!authToken) {
-    res.status(401).json({
+    return res.status(401).json({
       status: 'error',
       message: 'Token not informed'
     });
