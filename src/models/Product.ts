@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { ICategory, categorySchema } from './Category';
+import { ICategory } from './Category';
 
 interface IProduct {
   name: string;
@@ -24,10 +24,13 @@ const productSchema = new Schema<IProduct>({
     required: true,
     min: 0
   },
-  categories: {
-    type: [categorySchema],
-    required: true
-  }
+  categories: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Category',
+      required: true
+    }
+  ]
 });
 
 const Product = model<IProduct>('Product', productSchema);
