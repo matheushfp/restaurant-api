@@ -18,6 +18,7 @@ route.post('/category', validateToken, CategoryController.create);
 
 route.get('/product', validateToken, ProductController.index);
 route.get('/product/:id', validateToken, ProductController.getByID);
+route.post('/product', validateToken, ProductController.create);
 route.delete('/product/:id', validateToken, ProductController.delete);
 
 export { route };
