@@ -13,9 +13,21 @@ async function run() {
 
 async function seed() {
   // Clear the database
-  await User.collection.drop();
-  await Category.collection.drop();
-  await Product.collection.drop();
+  const users = await User.find({});
+  const categories = await Category.find({});
+  const products = await Product.find({});
+
+  if (users.length > 0) {
+    await User.collection.drop();
+  }
+
+  if (categories.length > 0) {
+    await Category.collection.drop();
+  }
+
+  if (products.length > 0) {
+    await Product.collection.drop();
+  }
 
   /**
    * Create admin user
