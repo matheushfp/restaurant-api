@@ -37,7 +37,7 @@ class UserController {
       const query = await User.findOne({ email }).exec();
 
       if (query) {
-        return res.status(400).json({
+        return res.status(409).json({
           status: 'error',
           message: 'User Already Exists'
         });
@@ -51,10 +51,7 @@ class UserController {
         password: passwordHash
       });
 
-      return res.status(201).json({
-        status: 'success',
-        data: user
-      });
+      return res.status(201).json(user);
     }
   }
 
@@ -81,7 +78,7 @@ class UserController {
       const { email, password } = result.data;
 
       // Check if user exists
-      const query = await User.findOne({ email }).exec();
+      const query = await User.findOne({ email });
 
       if (query === null) {
         // Not return explicitly "user not exists" to avoid attacks
