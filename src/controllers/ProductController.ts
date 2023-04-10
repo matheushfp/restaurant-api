@@ -64,20 +64,29 @@ class ProductController {
   public async getByID(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
 
+    if (!isValidObjectId(id)) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Invalid ID'
+      });
+    }
+
     try {
       const product = await Product.findById(id).populate('categories');
 
-      /* if product is null, the user is trying to get a deleted product
-      or a valid objectId not used yet to create a product */
+      // Not Found
       if (product === null) {
-        return res.status(204).json();
+        return res.status(404).json({
+          status: 'error',
+          message: 'Product Not Found'
+        });
       }
 
       return res.json(product);
     } catch (err) {
-      return res.status(404).json({
+      return res.status(500).json({
         status: 'error',
-        message: 'Product Not Found'
+        message: 'Internal Server Error'
       });
     }
   }

@@ -28,6 +28,36 @@ class CategoryController {
     }
   }
 
+  public async getByID(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+
+    if (!isValidObjectId(id)) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Invalid ID'
+      });
+    }
+
+    try {
+      const category = await Category.findById(id).populate('parent');
+
+      // Not Found
+      if (category === null) {
+        return res.status(404).json({
+          status: 'error',
+          message: 'Category Not Found'
+        });
+      }
+
+      return res.json(category);
+    } catch (err) {
+      return res.status(500).json({
+        status: 'error',
+        message: 'Internal Server Error'
+      });
+    }
+  }
+
   public async create(req: Request, res: Response): Promise<Response> {
     const result = categorySchema.safeParse(req.body);
 

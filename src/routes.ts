@@ -16,6 +16,7 @@ route.post('/auth/register', validateToken, UserController.create);
 
 // Category
 route.get('/category', validateToken, CategoryController.index);
+route.get('/category/:id', validateToken, CategoryController.getByID);
 route.post('/category', validateToken, CategoryController.create);
 
 // Product
