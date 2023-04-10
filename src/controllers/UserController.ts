@@ -51,8 +51,6 @@ class UserController {
         password: passwordHash
       });
 
-      await user.save();
-
       return res.status(201).json({
         status: 'success',
         data: user

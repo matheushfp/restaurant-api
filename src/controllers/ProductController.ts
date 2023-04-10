@@ -319,13 +319,24 @@ class ProductController {
   public async delete(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
 
+    if (!isValidObjectId(id)) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Invalid ID'
+      });
+    }
+
     // Check if product exists and try to delete
     try {
       const product = await Product.findByIdAndDelete(id);
 
       // handle if the user is trying to delete a product already deleted
+      // or a product that not exists
       if (product === null) {
-        return res.status(204).json();
+        return res.status(404).json({
+          status: 'error',
+          message: 'Product Not Found'
+        });
       }
 
       return res.status(200).json({
@@ -333,9 +344,9 @@ class ProductController {
         message: 'Product Deleted Successfully'
       });
     } catch (err) {
-      return res.status(404).json({
+      return res.status(500).json({
         status: 'error',
-        message: 'Product Not Found'
+        message: 'Internal Server Error'
       });
     }
   }
